@@ -10,11 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
-public class Project {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Project extends BaseEntity{
 
     @NotBlank(message = "Project name is required")
     private String projectName;
