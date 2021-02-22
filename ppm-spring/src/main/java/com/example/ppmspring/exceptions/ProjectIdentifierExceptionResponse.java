@@ -7,7 +7,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ProjectIdExceptionResponse {
+public class ProjectIdentifierExceptionResponse {
 
     private final String projectIdentifier;
 }
