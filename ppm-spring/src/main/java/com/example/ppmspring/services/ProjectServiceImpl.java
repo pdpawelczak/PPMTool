@@ -12,6 +12,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
 
+    @Override
     public Project saveOrUpdateProject(Project project){
         try{
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
@@ -19,5 +20,14 @@ public class ProjectServiceImpl implements ProjectService {
         }catch (Exception e){
             throw new ProjectIdException("Project ID " + project.getProjectIdentifier().toUpperCase() + " already exists!");
         }
+    }
+
+    @Override
+    public Project findProjectByIdentifier(String projectIdentifier) {
+        Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+        if(project == null){
+            throw new ProjectIdException("Project with ID: " + projectIdentifier + " does not exists!");
+        }
+        return project;
     }
 }
