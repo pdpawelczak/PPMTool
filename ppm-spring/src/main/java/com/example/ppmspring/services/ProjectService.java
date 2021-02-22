@@ -4,6 +4,6 @@ import com.example.ppmspring.domain.Project;
 
 public interface ProjectService {
 
-    public Project saveOrUpdateProject(Project project);
+    Project saveOrUpdateProject(Project project);
 
 }
