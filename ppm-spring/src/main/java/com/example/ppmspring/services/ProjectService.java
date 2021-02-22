@@ -7,4 +7,5 @@ public interface ProjectService {
     Project saveOrUpdateProject(Project project);
     Project findByProjectIdentifier(String projectIdentifier);
     Iterable<Project> findAllProjects();
+    void deleteProjectByIdentifier(String projectIdentifier);
 }

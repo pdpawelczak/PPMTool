@@ -42,4 +42,13 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return projectRepository.findAll();
     }
+
+    @Override
+    public void deleteProjectByIdentifier(String projectIdentifier) {
+        Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+        if(project == null){
+            throw new ProjectIdentifierException("Project with ID: " + projectIdentifier + " does not exists!");
+        }
+        projectRepository.delete(project);
+    }
 }
