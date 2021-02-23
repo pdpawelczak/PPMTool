@@ -9,6 +9,7 @@ import com.example.ppmspring.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +31,8 @@ public class ProjectServiceImpl implements ProjectService {
                 backlog.setProjectIdentifier(projectIdentifier);
             }
             if(project.getId() != null){
+                project.setCreated_At(project.getCreated_At());
+                project.setUpdated_At(new Date());
                 project.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier));
             }
             return projectRepository.save(project);

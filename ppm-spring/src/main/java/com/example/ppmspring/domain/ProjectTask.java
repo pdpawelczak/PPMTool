@@ -1,14 +1,17 @@
 package com.example.ppmspring.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class ProjectTask extends BaseEntity{
 
     @Column(updatable = false)
@@ -26,6 +29,8 @@ public class ProjectTask extends BaseEntity{
     private String status;
     private Integer priority;
     private Date dueDate;
+
+    @Column(updatable = false)
     private Date create_At;
     private Date update_At;
 
