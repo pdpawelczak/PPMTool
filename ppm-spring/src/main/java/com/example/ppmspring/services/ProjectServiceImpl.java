@@ -1,8 +1,10 @@
 package com.example.ppmspring.services;
 
+import com.example.ppmspring.domain.Backlog;
 import com.example.ppmspring.domain.Project;
 import com.example.ppmspring.exceptions.ProjectIdentifierException;
 import com.example.ppmspring.exceptions.ProjectsNotFoundException;
+import com.example.ppmspring.repositories.BacklogRepository;
 import com.example.ppmspring.repositories.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +16,22 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final BacklogRepository backlogRepository;
 
     @Override
     public Project saveOrUpdateProject(Project project){
+        String projectIdentifier = project.getProjectIdentifier().toUpperCase();
         try{
-            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            project.setProjectIdentifier(projectIdentifier);
+            if(project.getId() == null){
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(projectIdentifier);
+            }
+            if(project.getId() != null){
+                project.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier));
+            }
             return projectRepository.save(project);
         }catch (Exception e){
             throw new ProjectIdentifierException("Project ID " + project.getProjectIdentifier().toUpperCase() + " already exists!");
