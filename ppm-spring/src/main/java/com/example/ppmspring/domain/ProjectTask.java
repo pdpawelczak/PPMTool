@@ -31,19 +31,19 @@ public class ProjectTask extends BaseEntity{
     private Date dueDate;
 
     @Column(updatable = false)
-    private Date create_At;
-    private Date update_At;
+    private Date createdAt;
+    private Date updatedAt;
 
     @Column(updatable = false)
     private String projectIdentifier;
 
     @PrePersist
     protected void onCreate(){
-        this.create_At = new Date();
+        this.createdAt = new Date();
     }
 
     @PreUpdate
     protected void onUpdate(){
-        this.update_At = new Date();
+        this.updatedAt = new Date();
     }
 }

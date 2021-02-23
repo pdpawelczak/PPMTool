@@ -31,8 +31,8 @@ public class ProjectServiceImpl implements ProjectService {
                 backlog.setProjectIdentifier(projectIdentifier);
             }
             if(project.getId() != null){
-                project.setCreated_At(project.getCreated_At());
-                project.setUpdated_At(new Date());
+                project.setCreatedAt(project.getCreatedAt());
+                project.setUpdatedAt(new Date());
                 project.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier));
             }
             return projectRepository.save(project);

@@ -2,10 +2,7 @@ package com.example.ppmspring.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +13,8 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Project extends BaseEntity{
 
     @NotBlank(message = "Project name is required")
@@ -30,17 +29,17 @@ public class Project extends BaseEntity{
     private String description;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date start_date;
+    private Date startDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date end_date;
+    private Date endDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(updatable = false)
-    private Date created_At;
+    private Date createdAt;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updated_At;
+    private Date updatedAt;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
@@ -48,11 +47,11 @@ public class Project extends BaseEntity{
 
     @PrePersist
     protected void onCreate() {
-        this.created_At = new Date();
+        this.createdAt = new Date();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updated_At = new Date();
+        this.updatedAt = new Date();
     }
 }
