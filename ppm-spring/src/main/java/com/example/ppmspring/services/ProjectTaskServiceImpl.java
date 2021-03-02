@@ -4,6 +4,7 @@ import com.example.ppmspring.domain.Backlog;
 import com.example.ppmspring.domain.Project;
 import com.example.ppmspring.domain.ProjectTask;
 import com.example.ppmspring.exceptions.ProjectNotFoundException;
+import com.example.ppmspring.exceptions.ProjectsNotFoundException;
 import com.example.ppmspring.repositories.BacklogRepository;
 import com.example.ppmspring.repositories.ProjectRepository;
 import com.example.ppmspring.repositories.ProjectTaskRepository;
@@ -68,5 +69,14 @@ public class ProjectTaskServiceImpl implements  ProjectTaskService{
             throw new ProjectNotFoundException("Project Task " + ptIdUpper + " does not exist in project: " + projectIdentifierUpper);
         }
         return projectTask;
+    }
+
+    @Override
+    public ProjectTask updateProjectTaskByProjectSequence(ProjectTask updatedTask, String projectIdentifier, String ptId) {
+        if(updatedTask.getPriority() < 1 || updatedTask.getPriority() > 3){
+            throw new ProjectsNotFoundException("Task priority " +updatedTask.getPriority() + " cannot be applied. Project priority values can be from 1 to 3!");
+        }
+        ProjectTask projectTask = findProjectTaskByProjectSequence(projectIdentifier, ptId);
+        return projectTaskRepository.save(projectTask);
     }
 }
