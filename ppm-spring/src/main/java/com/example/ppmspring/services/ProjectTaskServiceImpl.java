@@ -76,7 +76,13 @@ public class ProjectTaskServiceImpl implements  ProjectTaskService{
         if(updatedTask.getPriority() < 1 || updatedTask.getPriority() > 3){
             throw new ProjectsNotFoundException("Task priority " +updatedTask.getPriority() + " cannot be applied. Project priority values can be from 1 to 3!");
         }
+        findProjectTaskByProjectSequence(projectIdentifier, ptId);
+        return projectTaskRepository.save(updatedTask);
+    }
+
+    @Override
+    public void deleteProjectTaskByProjectSequence(String projectIdentifier, String ptId) {
         ProjectTask projectTask = findProjectTaskByProjectSequence(projectIdentifier, ptId);
-        return projectTaskRepository.save(projectTask);
+        projectTaskRepository.delete(projectTask);
     }
 }

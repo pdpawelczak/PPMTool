@@ -20,7 +20,7 @@ public class ProjectTask extends BaseEntity{
     @NotBlank(message = "Please include a project summary")
     private String summary;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(updatable = false, nullable = false)
     @JsonIgnore
     private Backlog backlog;
