@@ -14,7 +14,7 @@ import java.util.Date;
 @ToString
 public class ProjectTask extends BaseEntity{
 
-    @Column(updatable = false)
+    @Column(updatable = false, unique = true)
     private String projectSequence;
 
     @NotBlank(message = "Please include a project summary")
