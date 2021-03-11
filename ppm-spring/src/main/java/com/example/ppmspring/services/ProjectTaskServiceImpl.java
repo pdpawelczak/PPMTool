@@ -35,7 +35,7 @@ public class ProjectTaskServiceImpl implements  ProjectTaskService{
                 projectTask.setPriority(3);
             }
             if(projectTask.getStatus() == null || projectTask.getStatus() == ""){
-                projectTask.setStatus("TODO");
+                projectTask.setStatus("TO_DO");
             }
             return projectTaskRepository.save(projectTask);
         }catch (Exception e){
