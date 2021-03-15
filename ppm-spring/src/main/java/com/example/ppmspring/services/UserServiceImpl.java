@@ -1,6 +1,7 @@
 package com.example.ppmspring.services;
 
 import com.example.ppmspring.domain.User;
+import com.example.ppmspring.exceptions.UsernameAlreadyExistsException;
 import com.example.ppmspring.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +16,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return userRepository.save(user);
+        }catch (Exception e){
+            throw new UsernameAlreadyExistsException("Username: " + user.getUsername() + " already exists!");
+        }
+
     }
 }
