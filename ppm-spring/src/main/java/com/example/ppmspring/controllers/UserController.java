@@ -3,6 +3,7 @@ package com.example.ppmspring.controllers;
 import com.example.ppmspring.domain.User;
 import com.example.ppmspring.services.MapValidationErrorService;
 import com.example.ppmspring.services.UserService;
+import com.example.ppmspring.validator.UserValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,11 @@ public class UserController {
 
     private final MapValidationErrorService mapValidationErrorService;
     private final UserService userService;
+    private final UserValidator userValidator;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result){
+        userValidator.validate(user, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null){
             return errorMap;
