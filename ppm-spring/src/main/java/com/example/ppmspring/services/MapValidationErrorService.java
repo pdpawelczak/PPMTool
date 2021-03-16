@@ -1,5 +1,6 @@
 package com.example.ppmspring.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@AllArgsConstructor
 public class MapValidationErrorService {
 
-    public ResponseEntity<?> MapValidationService(BindingResult result){
+    public ResponseEntity<?> mapValidationService(BindingResult result){
 
         if(result.hasErrors()){
             Map<String, String> errorMap = new HashMap<>();
