@@ -1,14 +1,22 @@
 package com.example.ppmspring.security;
 
+import com.example.ppmspring.services.CustomUserDetailsService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import static com.example.ppmspring.security.SecurityConstants.H2_URL;
+import static com.example.ppmspring.security.SecurityConstants.SIGN_UP_URLS;
 
 @Configuration
 @EnableWebSecurity
@@ -17,19 +25,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
         jsr250Enabled = true,
         prePostEnabled = true
 )
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
-
-    public SecurityConfig(JwtAuthenticationEntryPoint unathorizedHandler) {
-        this.unauthorizedHandler = unathorizedHandler;
+    @Override
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -53,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
-                .antMatchers("/api/users/**", "/h2-console/**").permitAll()
+                .antMatchers(SIGN_UP_URLS, H2_URL).permitAll()
                 .anyRequest().authenticated();
     }
 }
