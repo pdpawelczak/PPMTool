@@ -1,5 +1,6 @@
 package com.example.ppmspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -28,10 +29,13 @@ public class ProjectTask extends BaseEntity{
     private String acceptanceCriteria;
     private String status;
     private Integer priority;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date dueDate;
 
     @Column(updatable = false)
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date createdAt;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updatedAt;
 
     @Column(updatable = false)
